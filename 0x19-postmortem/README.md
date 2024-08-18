@@ -39,7 +39,7 @@
 
 To avoid future disasters, we’ll beef up our safeguards and monitoring systems. We’re on it like a superhero squad!
 
-![Diagram of the Incident](https://via.placeholder.com/600x400?text=Diagram+Here)  
+![Diagram of the Incident](https://www.bing.com/images/create/a-minimalist-flowchart-with-basic-shapes-and-arrow/1-66c25180dc52483fb6607f6e93adb311?id=l7E5X8ZmVaNXdBbRhfApXQ%3d%3d&view=detailv2&idpp=genimg&idpclose=1&thId=OIG2.b0D81PVo0PIAW.3oSl5e&frame=sydedg&skey=IZ1tY0M3KFPevHBwYyi2XHTIkzqUrNQypecdpkWLzR0&FORM=SYDBIC/600x400)  
 *Diagram: How a Memory Leak Turns into a Server Meltdown*
 
 ---
