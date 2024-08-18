@@ -1,41 +1,37 @@
-# 🛠 Database Outage Incident Postmortem
+# 🛠 Web Application Outage Incident Postmortem
 
 ## 📅 Issue Summary
 
-- **🕒 Duration:** 2024-07-12 09:00 UTC to 2024-07-12 12:45 UTC
+- **🕒 Duration:** The outage occurred from 2024-08-10 14:30 UTC to 2024-08-10 15:45 UTC.
 - **⚠️ Impact:** 
-  - 90% of application services were unavailable, affecting data retrieval and transaction processing.
-  - Users encountered error messages and were unable to complete new transactions, leading to a significant drop in user satisfaction and potential revenue loss.
-- **📝 Root Cause:** An automated deployment introduced an incompatible database schema change, causing cascading failures across multiple services.
+  - The web application’s dashboard and user data retrieval features were unavailable.
+  - 60% of users experienced either slow response times or complete failures when attempting to load their dashboards.
+  - The root cause was an unexpected memory leak in the application server, which led to server crashes under high load.
 
 ## 📜 Timeline
 
-- **09:00 UTC:** Monitoring system alerts the team to a spike in database query failures and increased latency.
-- **09:10 UTC:** Engineering team begins investigating database server health and performance metrics.
-- **09:30 UTC:** Errors in application logs indicate schema mismatches during data queries.
-- **09:45 UTC:** Automated deployment identified as the source of the schema changes, leading to incompatibilities with existing application code.
-- **10:00 UTC:** Rollback attempt fails due to partial schema changes already applied.
-- **11:00 UTC:** Database and application teams manually revert schema changes and restore functionality.
-- **12:00 UTC:** Database services partially restored; transaction processing still offline.
-- **12:45 UTC:** Full resolution achieved after reverting all schema changes and updating the application code for compatibility.
+- **14:30 UTC:** Issue detected via automated monitoring alerts showing a spike in server response times and error rates.
+- **14:35 UTC:** The engineering team began investigating the server logs, noticing repeated memory allocation errors.
+- **14:45 UTC:** Initial assumption was that a recent update to the data processing module caused the issue; the team began rolling back the update.
+- **15:00 UTC:** Rolling back the update did not resolve the issue; further investigation revealed a significant increase in memory usage over time.
+- **15:10 UTC:** The team identified a potential memory leak in the session handling component of the application.
+- **15:20 UTC:** Incident escalated to the backend engineering team for a deep dive into the session management code.
+- **15:35 UTC:** The backend team identified and patched the memory leak.
+- **15:45 UTC:** The patched version was deployed, and the system was fully restored.
 
 ## 🔍 Root Cause and Resolution
 
-- **Root Cause:** The automated deployment process introduced a schema change without verifying compatibility with the existing application code, leading to widespread service failures.
-- **Resolution:** Manual reversion of schema changes and updates to the deployment process to prevent future incompatibility issues.
+- **Root Cause:** The issue was caused by a memory leak in the session handling component of the application. The memory leak occurred due to improper memory management when handling user sessions, causing the server to consume more memory over time until it crashed under heavy load.
+- **Resolution:** The backend engineering team identified the faulty code responsible for the memory leak and applied a patch to fix the memory allocation issue. Once the patch was deployed, the system’s performance returned to normal, and users were able to access the application without issues.
 
 ## 🚀 Corrective and Preventative Measures
 
 - **Improvements/Fixes:**
-  - Implement a robust deployment process with automated schema compatibility checks.
-  - Enhance staging environment to more closely mirror production for better pre-deployment testing.
+  - Conduct a thorough code review focusing on memory management practices in the application.
+  - Enhance monitoring to detect memory leaks early, including setting up alerts for unusual memory usage patterns.
 - **Action Items:**
-  1. **Pre-Deployment Checks:** Integrate schema compatibility checks into the deployment pipeline.
-  2. **Comprehensive Testing:** Develop test suites to simulate real-world usage scenarios and ensure no impact on service availability.
-  3. **Improved Communication:** Enhance communication between teams to ensure awareness of database changes and potential risks.
-  4. **Regular Reviews:** Schedule regular review meetings to analyze recent deployments and identify areas for process improvement.
-
-## 📈 Future Enhancements
-
-To ensure the resilience of our systems, we will be implementing additional safeguards and enhancing our monitoring capabilities to detect and mitigate similar issues more effectively.
+  1. **🔍 Code Review:** Schedule a comprehensive review of the session handling code to ensure no further memory issues are present.
+  2. **📊 Monitoring Enhancements:** Implement additional monitoring for memory usage and set thresholds for alerts when memory consumption exceeds normal levels.
+  3. **🧪 Automated Testing:** Develop and integrate automated tests that specifically target memory usage during the QA process.
+  4. **📚 Team Training:** Organize a training session for the development team on best practices for memory management in high-load environments.
 
